@@ -5,15 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Redirecting to YouTube...</title>
 
-  <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Watch this on YouTube!" />
   <meta property="og:description" content="Redirecting you to an amazing video..." />
   <meta property="og:image" content="https://img.youtube.com/vi/poqlQWaAwlk/maxresdefault.jpg" />
   <meta property="og:url" content="https://yourdomain.com/redirect.html" />
   <meta name="twitter:card" content="summary_large_image" />
-
-  <!-- Non-JS fallback -->
-  <meta http-equiv="refresh" content="0;url=https://youtu.be/poqlQWaAwlk" />
 
   <style>
     body {
@@ -47,6 +43,16 @@
       color: #0af;
       text-decoration: none;
     }
+    .btn {
+      background: #0af;
+      color: #000;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-top: 20px;
+      cursor: pointer;
+    }
   </style>
 
   <script>
@@ -57,8 +63,13 @@
 
       const ua = navigator.userAgent;
 
-      if (/Instagram/i.test(ua)) {
-        window.location.href = webUrl;
+      // In-app browser (Instagram etc.)
+      const isInApp = /Instagram|FBAN|FBAV|Twitter/i.test(ua);
+
+      if (isInApp) {
+        document.querySelector('.message').innerHTML += 
+          <button class="btn" onclick="window.location.href='${webUrl}'">Open in YouTube</button>
+        ;
         return;
       }
 
